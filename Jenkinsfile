@@ -16,6 +16,7 @@ sh "terraform apply --auto-approve"
    stage('Build Docker Image') {
           steps {
             sh 'cd /var/lib/jenkins/workspace/pipeline1/Drum-Kit/ '
+              echo ${PWD}
             sh 'docker build -t padrajucs/drumkit:${BUILD_NUMBER} .'
             }
         }
