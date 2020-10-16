@@ -10,13 +10,17 @@ sh "terraform apply --auto-approve"
   stage('Clone Repo') {
           steps {
             sh 'rm -rf Drum-Kit'
-            sh 'git clone https://github.com/panrajucs/Drum-Kit.git /var/lib/jenkins/'
+            echo "${PWD}"
+            sh 'git clone https://github.com/panrajucs/Drum-Kit.git'
+            
             }
         }
    stage('Build Docker Image') {
           steps {
            
               echo "${PWD}"
+              sh 'cd /var/lib/jenkins/workspace/pipeline1/Drum-Kit/'
+                echo "${PWD}"
             sh 'docker build -t padrajucs/drumkit:${BUILD_NUMBER} .'
             }
         }
