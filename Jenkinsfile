@@ -44,7 +44,7 @@ sh "terraform destroy --auto-approve"
             sh    'docker -H tcp://10.1.1.200:2375 run --rm -dit --name prodwebapp1 --hostname prodwebapp1 -p 8000:80 padrajucs/drumkit:${BUILD_NUMBER}'
             }
         }
-       }
+       
         stage('Check WebApp Rechability') {
            
           steps {
