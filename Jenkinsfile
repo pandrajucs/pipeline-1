@@ -4,10 +4,11 @@ stages{
 stage('terraform init & apply '){
 steps{
 sh "terraform init"
-sh "terraform apply --auto-approve"
+sh "terraform destroy --auto-approve"
     }
   }
   stage('Clone Repo') {
+    when (BRANCH_NAME == 'master') {
           steps {
             sh 'rm -rf Drum-Kit'
             echo "${PWD}"
@@ -15,7 +16,10 @@ sh "terraform apply --auto-approve"
             
             }
         }
+  }
+  
    stage('Build Docker Image') {
+       when (BRANCH_NAME == 'master') {
           steps {
            
               echo "${PWD}"
@@ -27,7 +31,9 @@ sh "terraform apply --auto-approve"
             
             }
         }
+   }
        stage('Push Image to Docker Hub') {
+           when (BRANCH_NAME == 'master') {
           steps {
            sh    'docker push padrajucs/drumkit:${BUILD_NUMBER}'
            }
@@ -38,12 +44,14 @@ sh "terraform apply --auto-approve"
             sh    'docker -H tcp://10.1.1.200:2375 run --rm -dit --name prodwebapp1 --hostname prodwebapp1 -p 8000:80 padrajucs/drumkit:${BUILD_NUMBER}'
             }
         }
-
+       }
         stage('Check WebApp Rechability') {
+            when (BRANCH_NAME == 'master') {
           steps {
           sh 'sleep 10s'
           sh ' curl ec2-35-168-62-217.compute-1.amazonaws.com:8000'
           }
+        }
         }
  }
 }
