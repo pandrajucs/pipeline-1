@@ -8,7 +8,7 @@ sh "terraform destroy --auto-approve"
     }
   }
   stage('Clone Repo') {
-    when (BRANCH_NAME == 'master') {
+   
           steps {
             sh 'rm -rf Drum-Kit'
             echo "${PWD}"
@@ -16,10 +16,10 @@ sh "terraform destroy --auto-approve"
             
             }
         }
-  }
+  
   
    stage('Build Docker Image') {
-       when (BRANCH_NAME == 'master') {
+     
           steps {
            
               echo "${PWD}"
@@ -31,9 +31,9 @@ sh "terraform destroy --auto-approve"
             
             }
         }
-   }
+   
        stage('Push Image to Docker Hub') {
-           when (BRANCH_NAME == 'master') {
+         
           steps {
            sh    'docker push padrajucs/drumkit:${BUILD_NUMBER}'
            }
@@ -46,13 +46,13 @@ sh "terraform destroy --auto-approve"
         }
        }
         stage('Check WebApp Rechability') {
-            when (BRANCH_NAME == 'master') {
+           
           steps {
           sh 'sleep 10s'
           sh ' curl ec2-35-168-62-217.compute-1.amazonaws.com:8000'
           }
         }
-        }
+     
  }
 }
 
