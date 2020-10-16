@@ -15,7 +15,7 @@ sh "terraform apply --auto-approve"
         }
    stage('Build Docker Image') {
           steps {
-           
+            sh 'cd /var/lib/jenkins/workspace/pipeline1/Drum-Kit/ '
             sh 'docker build -t padrajucs/drumkit:${BUILD_NUMBER} .'
             }
         }
@@ -34,7 +34,7 @@ sh "terraform apply --auto-approve"
         stage('Check WebApp Rechability') {
           steps {
           sh 'sleep 10s'
-          sh ' curl ec2-3-238-69-199.compute-1.amazonaws.com:8000'
+          sh ' curl ec2-35-168-62-217.compute-1.amazonaws.com:8000'
           }
         }
  }
